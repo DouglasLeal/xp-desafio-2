@@ -1,16 +1,14 @@
-const divallEvents = document.querySelector(".allEvents");
+const divAllEvents = document.querySelector(".allEvents");
 
-let mevents = [];
-
-async function getAllEvents(){
-    let response = await fetch(`https://xp41-soundgarden-api.herokuapp.com/events`);
-    mevents = await response.json();
-    console.log(mevents);
-    allEventsIndex();
+function getEvents(){
+    fetch(`https://xp41-soundgarden-api.herokuapp.com/events`)
+    .then(response => response.json())
+    .then(events => listAllEvents(events))
+    .catch(error => console.log("Erro ao obter eventos."))        
 }
 
-function allEventsIndex(){
-    mevents.forEach(data => {
+function listAllEvents(events){
+    events.forEach(data => {
         let dateEvent = new Date(data.scheduled);
         let newDate = `${dateEvent.getDate()}/${dateEvent.getMonth()}/${dateEvent.getFullYear()}`;
         
@@ -23,8 +21,8 @@ function allEventsIndex(){
         </article>
         `; 
     
-        divallEvents.innerHTML += cardEvents;
+        divAllEvents.innerHTML += cardEvents;
     });
 } 
 
-getAllEvents();
+getEvents();

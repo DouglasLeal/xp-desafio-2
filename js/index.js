@@ -1,16 +1,14 @@
 let divNextEvents = document.querySelector(".nextevt");
 
-let mevents = [];
-
-async function getMainEvents(){
-    let response = await fetch(`https://xp41-soundgarden-api.herokuapp.com/events`);
-        mevents = await response.json();
-        console.log(mevents);
-        nextEventsIndex();
+function getEvents(){
+    fetch(`https://xp41-soundgarden-api.herokuapp.com/events`)
+    .then(response => response.json())
+    .then(events => nextEventsIndex(events))
+    .catch(error => console.log("Erro ao obter eventos."))        
 }
 
-function nextEventsIndex(){
-    let mainEvents = mevents.slice(0, 3);
+function nextEventsIndex(events){
+    let mainEvents = events.slice(0, 3);
 
     mainEvents.forEach(data => {
         let dateEvent = new Date(data.scheduled);
@@ -29,4 +27,4 @@ function nextEventsIndex(){
     });
 } 
 
-getMainEvents();
+getEvents();
