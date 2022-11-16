@@ -49,7 +49,14 @@ function editEvent(ev) {
 
     putEvent(event)
         .then(response => response.json())
-        .then(result => { window.location.href = '/admin.html' })
+        .then(result => { 
+            let path = location.pathname.split("/");
+            path = path.filter((el) => el);
+            path = path[0].includes("html") ? "" : path[0];
+            let origin = path != "" ? `${location.origin}/${path}` : location.origin;
+            
+            window.location.href = `${origin}/admin.html`;
+         })
         .catch(error => console.log("Erro ao editar evento"));    
 }
 

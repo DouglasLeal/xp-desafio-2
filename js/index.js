@@ -78,10 +78,17 @@ function postBooking(newBooking) {
         body: JSON.stringify(newBooking)
     })
         .then(response => response.json())
-        .then(result => { window.location.href = '/' })
+        .then(result => {
+            let path = location.pathname.split("/");
+            path = path.filter((el) => el);
+            if (path.length > 0) {
+                path = path[0].includes("html") ? "" : path[0];
+            }
+            let origin = path != "" ? `${location.origin}/${path}` : location.origin;
+
+            window.location.href = origin;
+        })
         .catch(error => console.log("Erro ao criar reserva"));
 }
-
-
 
 getEvents();
