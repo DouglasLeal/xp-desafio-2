@@ -8,7 +8,7 @@ let getRequest = {
     headers: {'Content-Type': 'application/json'},   
   }; 
 
-  let Name = document.querySelector("#nome");
+  let name = document.querySelector("#nome");
   let poster = document.querySelector("#banner");
   let attractions = document.querySelector("#atracoes");
   let description = document.querySelector("#descricao");
@@ -19,7 +19,7 @@ let getRequest = {
         let response = await fetch(URL_API, getRequest);
         let data = await response.json();
        
-        Name.value = data.name;
+        name.value = data.name;
         poster.value = data.poster;
         attractions.value = data.attractions;
         description.value = data.description;
@@ -33,23 +33,24 @@ let getRequest = {
 
     form.addEventListener('submit', editEvent); 
     
-    function editEvent(event) {
-        event.preventDefault();
-        name.value;
-        poster.value;
-        attractions.value.split(",");
-        description.value;
-        new Date(scheduled.value).toISOString();
-        number_tickets.value;
+    function editEvent(ev) {
+        ev.preventDefault();
+        let event = {}
+        event.name = name.value;
+        event.poster = poster.value;
+        event.attractions = attractions.value.split(",");
+        event.description = description.value;
+        event.scheduled = new Date(scheduled.value).toISOString();
+        event.number_tickets = number_tickets.value;
     
-        putEvent({name, poster, attractions, description, scheduled, number_tickets});
+        putEvent(event);
     }
     
-    async function putEvent(data) {
+    async function putEvent(event) {
         let response = await fetch(URL_API, { 
             method: "PUT",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
+            body: JSON.stringify(event)
     });               
         return response;
     }
