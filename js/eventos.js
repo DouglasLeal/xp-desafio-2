@@ -3,41 +3,38 @@ let form = document.querySelector("form");
 
 let idEventClicked = null;
 
-function getEvents(){
+function getEvents() {
     fetch(`https://xp41-soundgarden-api.herokuapp.com/events`)
-    .then(response => response.json())
-    .then(events => listAllEvents(events))
-    .catch(error => console.log("Erro ao obter eventos."))        
+        .then(response => response.json())
+        .then(events => listAllEvents(events))
+        .catch(error => console.log("Erro ao obter eventos."))
 }
 
-function getEvent(id){
+function getEvent(id) {
     fetch(`https://xp41-soundgarden-api.herokuapp.com/events/${id}`)
-    .then(response => response.json())
-    .then(event => changeTitleModal(event.name))
-    .catch(error => console.log("Erro ao obter evento."))        
+        .then(response => response.json())
+        .then(event => changeTitleModal(event.name))
+        .catch(error => console.log("Erro ao obter evento."))
 }
 
-function listAllEvents(events){
+function listAllEvents(events) {
     events.forEach(data => {
-        let dateEvent = new Date(data.scheduled);
-        let newDate = `${dateEvent.getDate()}/${dateEvent.getMonth()}/${dateEvent.getFullYear()}`;
-        
         let cardEvents = `
         <article class="evento card p-5 m-3">
-            <h2>${data.name} - ${newDate}</h2>
+            <h2>${data.name} - ${new Date(data.scheduled).toLocaleDateString()}</h2>
             <h4>${data.attractions}</h4>
             <p>${data.description}</p>
             <a data-id="${data._id}" data-bs-toggle="modal" data-bs-target="#modalBooking" type="button" class="btn btn-primary">reservar ingresso</a>
         </article>
-        `; 
-    
+        `;
+
         divAllEvents.innerHTML += cardEvents;
     });
 
     addListenerBookingButton();
-} 
+}
 
-function addListenerBookingButton(){
+function addListenerBookingButton() {
     let buttons = document.querySelectorAll(".allEvents .btn-primary");
 
     buttons.forEach(b => {
@@ -48,16 +45,16 @@ function addListenerBookingButton(){
     });
 }
 
-function changeTitleModal(name){
-    let modalTitle = document.querySelector("#modalBookingLabel");    
+function changeTitleModal(name) {
+    let modalTitle = document.querySelector("#modalBookingLabel");
     modalTitle.innerText = "Event Title";
     modalTitle.innerText = name;
 }
 
 form.addEventListener('submit', (ev) => {
     ev.preventDefault();
-    
-    let newBooking = {number_tickets: 1, event_id: idEventClicked};
+
+    let newBooking = { number_tickets: 1, event_id: idEventClicked };
 
     newBooking["owner_name"] = form.elements["owner_name"].value;
     newBooking["owner_email"] = form.elements["owner_email"].value;
@@ -65,7 +62,7 @@ form.addEventListener('submit', (ev) => {
     postBooking(newBooking);
 });
 
-function postBooking(newBooking){
+function postBooking(newBooking) {
     fetch(`https://xp41-soundgarden-api.herokuapp.com/bookings`, {
         method: "POST",
         headers: {
@@ -73,9 +70,9 @@ function postBooking(newBooking){
         },
         body: JSON.stringify(newBooking)
     })
-    .then(response => response.json())
-    .then(result => {
-        let path = location.pathname.split("/");
+        .then(response => response.json())
+        .then(result => {
+            let path = location.pathname.split("/");
             path = path.filter((el) => el);
             if (path.length > 0) {
                 path = path[0].includes("html") ? "" : path[0];
@@ -83,8 +80,8 @@ function postBooking(newBooking){
             let origin = path != "" ? `${location.origin}/${path}` : location.origin;
 
             window.location.href = origin;
-    })
-    .catch(error => console.log("Erro ao criar reserva"));
+        })
+        .catch(error => console.log("Erro ao criar reserva"));
 }
 
 getEvents();

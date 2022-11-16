@@ -23,12 +23,9 @@ function nextEventsIndex(events) {
     let mainEvents = events.slice(0, 3);
 
     mainEvents.forEach(data => {
-        let dateEvent = new Date(data.scheduled);
-        let newDate = `${dateEvent.getDate()}/${dateEvent.getMonth()}/${dateEvent.getFullYear()}`;
-
         let cardEvents = `
         <article class="evento card p-5 m-3">
-            <h2>${data.name} - ${newDate}</h2>
+        <h2>${data.name} - ${ new Date(data.scheduled).toLocaleDateString()}</h2>
             <h4>${data.attractions}</h4>
             <p>${data.description}</p>
             <a data-id="${data._id}" data-bs-toggle="modal" data-bs-target="#modalBooking" type="button" class="btn btn-primary">reservar ingresso</a>

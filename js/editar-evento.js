@@ -24,7 +24,7 @@ async function getEvent() {
         poster.value = data.poster;
         attractions.value = data.attractions;
         description.value = data.description;
-        scheduled.value = new Date(data.scheduled).toLocaleString();
+        scheduled.value = formatDate(data.scheduled);
         number_tickets.value = data.number_tickets;
 
         if (response.status !== 200) {
@@ -77,6 +77,12 @@ async function putEvent(event) {
     } catch (error) {
         console.log(error)
     }    
+}
+
+function formatDate(date){
+    let offsetInMinutes = new Date().getTimezoneOffset();
+    let d = new Date(new Date(date).getTime() - offsetInMinutes * 60000).toISOString();
+    return d.substring(0, d.length - 8);
 }
 
 getEvent();

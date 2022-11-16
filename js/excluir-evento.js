@@ -17,7 +17,7 @@ function fillForm(event) {
         }
     }
 
-    form.elements['scheduled'].value = event.scheduled.substring(0, event.scheduled.length - 8);
+    form.elements['scheduled'].value = formatDate(event.scheduled);
 }
 
 form.addEventListener("submit", (ev) => {
@@ -41,6 +41,10 @@ function deleteEvent() {
     .catch(error => console.log(error));
 }
 
-getEvent();
+function formatDate(date){
+    let offsetInMinutes = new Date().getTimezoneOffset();
+    let d = new Date(new Date(date).getTime() - offsetInMinutes * 60000).toISOString();
+    return d.substring(0, d.length - 8);
+}
 
-console.log();
+getEvent();
