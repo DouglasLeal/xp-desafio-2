@@ -33,13 +33,13 @@ let getRequest = {
 
     form.addEventListener('submit', editEvent); 
     
-    function editEvent() {
+    function editEvent(event) {
         event.preventDefault();
-        Name.value;
+        name.value;
         poster.value;
         attractions.value.split(",");
         description.value;
-        scheduled.value.toISOString();
+        new Date(scheduled.value).toISOString();
         number_tickets.value;
     
         putEvent({name, poster, attractions, description, scheduled, number_tickets});
