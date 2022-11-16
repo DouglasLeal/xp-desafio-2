@@ -15,16 +15,16 @@ function createEvent(event) {
     postEvent({name, poster, attractions, description, scheduled, number_tickets});    
 };
 
-function postEvent(data) {
-    fetch(URL_API, {
+async function postEvent(dados) {
+    const response = await fetch(URL_API, {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(dados),
     redirect: 'follow',
     headers: {
         'Content-Type': 'application/json'
     },
 })
 .then(response => response.text())
-.then(result => {window.location.href = '/admin.html'})
+.then(result => console.log(result))
 .catch(error => console.log('error', error));
 }
