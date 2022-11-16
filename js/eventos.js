@@ -1,10 +1,20 @@
 const divAllEvents = document.querySelector(".allEvents");
+let form = document.querySelector("form");
+
+let idEventClicked = null;
 
 function getEvents(){
     fetch(`https://xp41-soundgarden-api.herokuapp.com/events`)
     .then(response => response.json())
     .then(events => listAllEvents(events))
     .catch(error => console.log("Erro ao obter eventos."))        
+}
+
+function getEvent(id){
+    fetch(`https://xp41-soundgarden-api.herokuapp.com/events/${id}`)
+    .then(response => response.json())
+    .then(event => changeTitleModal(event.name))
+    .catch(error => console.log("Erro ao obter evento."))        
 }
 
 function listAllEvents(events){
@@ -17,12 +27,57 @@ function listAllEvents(events){
             <h2>${data.name} - ${newDate}</h2>
             <h4>${data.attractions}</h4>
             <p>${data.description}</p>
-            <a href="scripts/evento-reserva.js" class="btn btn-primary">reservar ingresso</a>
+            <a data-id="${data._id}" data-bs-toggle="modal" data-bs-target="#modalBooking" type="button" class="btn btn-primary">reservar ingresso</a>
         </article>
         `; 
     
         divAllEvents.innerHTML += cardEvents;
     });
+
+    addListenerBookingButton();
 } 
+
+function addListenerBookingButton(){
+    let buttons = document.querySelectorAll(".allEvents .btn-primary");
+
+    buttons.forEach(b => {
+        b.addEventListener('click', (ev) => {
+            idEventClicked = ev.target.dataset.id;
+            getEvent(idEventClicked);
+        });
+    });
+}
+
+function changeTitleModal(name){
+    let modalTitle = document.querySelector("#modalBookingLabel");    
+    modalTitle.innerText = "Event Title";
+    modalTitle.innerText = name;
+}
+
+form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    
+    let newBooking = {number_tickets: 1, event_id: idEventClicked};
+
+    newBooking["owner_name"] = form.elements["owner_name"].value;
+    newBooking["owner_email"] = form.elements["owner_email"].value;
+
+    postBooking(newBooking);
+});
+
+function postBooking(newBooking){
+    fetch(`https://xp41-soundgarden-api.herokuapp.com/bookings`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newBooking)
+    })
+    .then(response => response.json())
+    .then(result => {window.location.href = '/eventos.html'})
+    .catch(error => console.log("Erro ao criar reserva"));
+}
+
+
 
 getEvents();
