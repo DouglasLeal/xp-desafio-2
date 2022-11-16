@@ -8,7 +8,7 @@ let getRequest = {
     headers: {'Content-Type': 'application/json'},   
   }; 
 
-  let name = document.querySelector("#nome");
+  let Name = document.querySelector("#nome");
   let poster = document.querySelector("#banner");
   let attractions = document.querySelector("#atracoes");
   let description = document.querySelector("#descricao");
@@ -19,19 +19,23 @@ let getRequest = {
         let response = await fetch(URL_API, getRequest);
         let data = await response.json();
        
-        name.value = data.name;
+        Name.value = data.name;
         poster.value = data.poster;
         attractions.value = data.attractions;
         description.value = data.description;
         scheduled.value = new Date(data.scheduled).toLocaleString();
         number_tickets.value = data.number_tickets;
-    };    
+
+        if (response.status !== 200) {
+            throw Error(data.detail);
+        }     
+    }   
 
     form.addEventListener('submit', editEvent); 
     
     function editEvent() {
         event.preventDefault();
-        name.value;
+        Name.value;
         poster.value;
         attractions.value.split(",");
         description.value;
@@ -39,15 +43,15 @@ let getRequest = {
         number_tickets.value;
     
         putEvent({name, poster, attractions, description, scheduled, number_tickets});
-    };
+    }
     
     async function putEvent(data) {
         let response = await fetch(URL_API, { 
             method: "PUT",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dados),
-    });
-    return response;
+            body: JSON.stringify(data)
+    });               
+        return response;
     }
     
     getEvent();
