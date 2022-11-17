@@ -24,7 +24,7 @@ async function getEvent() {
         poster.value = data.poster;
         attractions.value = data.attractions;
         description.value = data.description;
-        scheduled.value = new Date(data.scheduled).toLocaleString('pt-BR', {timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short"});
+        scheduled.value = formatDate(data.scheduled);
         number_tickets.value = data.number_tickets;
 
         if (response.status !== 200) {
@@ -84,3 +84,13 @@ async function putEvent(event) {
 
 getEvent();
 
+function formatDate(scheduled){
+    let d = new Date(scheduled).toLocaleString('pt-BR', {timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short"});
+    d = d.replaceAll("/", "-");
+
+    let array = d.split(" ");
+
+    let arrayDate  = array[0].split("-")
+
+    return dataFormatada = `${arrayDate[2]}-${arrayDate[1]}-${arrayDate[0]}T${array[1]}`
+}

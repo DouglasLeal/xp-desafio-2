@@ -8,7 +8,7 @@ let getRequest = {
 };
 
 let tbody = document.querySelector("table tbody");
-let tittle = document.getElementById("tittle");
+let tittle = document.getElementById("title");
 
 function getBookings() {
     fetch(URL_API, getRequest)
@@ -18,19 +18,19 @@ function getBookings() {
 } 
 
 function bookingList(bookings){
-    tittle.innerHTML = bookings[1].event.name;
+    tittle.innerText = `Evento: ${bookings[0].event.name}`;
     bookings.forEach((booking, index) => {
         tbody.innerHTML += createLayout(index, booking);
     });   
 }
 
 function createLayout(index, booking){
-    let formattedDate = new Date(booking.created_at).toLocaleString();
+    let formattedDate = new Date(booking.created_at).toLocaleString('pt-BR', {timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short"});
 
     let tr = `
     <tr>
         <th scope="row">${index + 1}</th>
-        <td>${formattedDate.substring(0, formattedDate.length - 3)}</td>
+        <td>${formattedDate}</td>
         <td>${booking.owner_name}</td>
         <td>${booking.owner_email}</td>
     </tr>`
