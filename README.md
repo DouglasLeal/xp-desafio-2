@@ -21,7 +21,7 @@
 
 <h2 align="center">:rocket: Demonstração</h2>
 <div align="center"> 
-  <a href="https://github.com/DouglasLeal/xp-desafio-2.git">Clique aqui para ver o projeto em execução</a>
+  <a href="https://douglasleal.github.io/xp-desafio-2/">Clique aqui para ver o projeto em execução</a>
 </div>
 
 <br>
