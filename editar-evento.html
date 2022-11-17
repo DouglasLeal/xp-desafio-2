@@ -62,29 +62,29 @@
                     <form class="col-6">
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nome" aria-describedby="nome">
+                            <input type="text" class="form-control" id="nome" aria-describedby="nome" required>
                         </div>
                         <div class="mb-3">
                             <label for="banner" class="form-label">Banner</label>
-                            <input type="text" class="form-control" id="banner" aria-describedby="banner">
+                            <input type="text" class="form-control" id="banner" aria-describedby="banner" required>
                             <small>adicione o link da imagem</small>
                         </div>
                         <div class="mb-3">
                             <label for="atracoes" class="form-label">Atrações</label>
-                            <input type="text" class="form-control" id="atracoes" aria-describedby="atracoes">
+                            <input type="text" class="form-control" id="atracoes" aria-describedby="atracoes" required>
                             <small>insira o nome dos artistas separados por vírgula</small>
                         </div>
                         <div class="mb-3">
                             <label for="descricao" class="form-label">Descrição</label>
-                            <textarea name="descricao" id="descricao" class="form-control" rows="5"></textarea>
+                            <textarea name="descricao" id="descricao" class="form-control" rows="5" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="data" class="form-label">Data</label>
-                            <input type="datetime-local" name="data" id="data" class="form-control">
+                            <input type="datetime" name="data" id="data" class="form-control" placeholder="00/00/0000 00:00" required>
                         </div>
                         <div class="mb-3">
                             <label for="lotacao" class="form-label">Lotação (número de ingressos disponiveis)</label>
-                            <input type="number" class="form-control" id="lotacao" aria-describedby="lotacao">
+                            <input type="number" class="form-control" id="lotacao" aria-describedby="lotacao" required min="0" step="1">
                         </div>
                         <button type="submit" class="btn btn-primary">enviar</button>
                     </form>

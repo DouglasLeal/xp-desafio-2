@@ -16,6 +16,8 @@ function createEvent(event) {
 };
 
 function postEvent(data) {
+    console.log(data)
+
     fetch(URL_API, {
         method: 'POST',
         body: JSON.stringify(data),

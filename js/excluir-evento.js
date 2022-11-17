@@ -17,7 +17,7 @@ function fillForm(event) {
         }
     }
 
-    form.elements['scheduled'].value = formatDate(event.scheduled);
+    form.elements['scheduled'].value = new Date(event.scheduled).toLocaleString('pt-BR', {timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short"});
 }
 
 form.addEventListener("submit", (ev) => {
@@ -39,12 +39,6 @@ function deleteEvent() {
             window.location.href = `${origin}/admin.html`;
     })
     .catch(error => console.log(error));
-}
-
-function formatDate(date){
-    let offsetInMinutes = new Date().getTimezoneOffset();
-    let d = new Date(new Date(date).getTime() - offsetInMinutes * 60000).toISOString();
-    return d.substring(0, d.length - 8);
 }
 
 getEvent();

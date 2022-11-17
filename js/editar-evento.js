@@ -24,7 +24,7 @@ async function getEvent() {
         poster.value = data.poster;
         attractions.value = data.attractions;
         description.value = data.description;
-        scheduled.value = formatDate(data.scheduled);
+        scheduled.value = new Date(data.scheduled).toLocaleString('pt-BR', {timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short"});
         number_tickets.value = data.number_tickets;
 
         if (response.status !== 200) {
@@ -44,8 +44,10 @@ function editEvent(ev) {
     event.poster = poster.value;
     event.attractions = attractions.value.split(",");
     event.description = description.value;
-    event.scheduled = new Date(scheduled.value).toISOString();
+    event.scheduled = new Date(scheduled.value);
     event.number_tickets = number_tickets.value;
+
+    console.log(event)
 
     putEvent(event)
         .then(response => response.json())
@@ -79,11 +81,6 @@ async function putEvent(event) {
     }    
 }
 
-function formatDate(date){
-    let offsetInMinutes = new Date().getTimezoneOffset();
-    let d = new Date(new Date(date).getTime() - offsetInMinutes * 60000).toISOString();
-    return d.substring(0, d.length - 8);
-}
 
 getEvent();
 
