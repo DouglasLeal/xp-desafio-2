@@ -52,3 +52,14 @@ footer nav ul li  {
 main.admin tbody td:nth-child(5){
     width: 280px;
 }
+
+.banner img{
+    margin: 0 auto;
+    height: 750px;
+    width: 80%;
+}
+
+.carousel-control-next, .carousel-control-prev{
+    background-color: #C2185B;
+    width: 10%;
+}
